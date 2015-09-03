@@ -1,0 +1,17 @@
+{
+  "name": "sx-150",
+  "version": "1.0.0",
+  "description": "Gakken SX-150 mk-ii Arduino controll mod",
+  "main": "sx-150.js",
+  "dependencies": {
+    "johnny-five": "^0.8.89"
+  },
+  "devDependencies": {
+    "johnny-five": "^0.8.89"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
