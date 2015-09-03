@@ -6,29 +6,53 @@ board.on("ready", function() {
   var relay = new five.Relay(9)
       relay.close();
 
+  var delay = 500;
+  var bar = 16;
   var noteIndex = 0;
 
-  var tune = [0, 50, 0, 100, 0, 150, 0, 200, 0, 250];
+  var pA = [0, 100, 0, 100,
+            0, 100, 0, 100,
+            0, 100, 0, 100,
+            0, 100, 0, 100 ];
 
-  this.repl.inject({
-    p1: [0, 50, 0, 100, 0, 150, 0, 200, 0, 250],
-    p2: [0,250],
-    p3: [0,0,0,0,250],
-    play: function(tempo, pattern) {
-      board.loop(tempo, function() {
-        pitch.brightness(pattern[noteIndex]);
+  var pB = [0, 100, 100, 100,
+            0, 100, 100, 100,
+            0, 100, 100, 100,
+            0, 100, 100, 100 ];
 
-        if (tune[noteIndex] === 0) {
+  var currentPatern = pA;
+
+  (function playNote () {
+     setTimeout(function () {
+        if(currentPatern[noteIndex] === 0) {
           relay.close();
         } else {
           relay.open();
         }
 
-        noteIndex += 1;
-        if (noteIndex >= tune.length) {
+        pitch.brightness(currentPatern[noteIndex]);
+
+        noteIndex++;
+        if (noteIndex >= bar) {
           noteIndex = 0;
         }
-      });
+
+        playNote();
+     }, delay)
+  })();
+
+  this.repl.inject({
+    tempo: function(setDelay) {
+      delay = setDelay;
+      return delay;
+    },
+    pA: function() {
+      currentPatern = pA;
+      return currentPatern;
+    },
+    pB: function() {
+      currentPatern = pB;
+      return currentPatern;
     }
   });
 });
