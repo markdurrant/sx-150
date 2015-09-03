@@ -10,7 +10,9 @@ board.on("ready", function() {
   var relay = new five.Relay(9)
       relay.close();
 
-  this.loop(500, function() {
+  var t = 500;
+
+  this.loop(t, function() {
     console.log(n, tune[n]);
 
     noise.brightness(tune[n]);
