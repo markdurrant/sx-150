@@ -1,32 +1,34 @@
 var five = require("johnny-five");
 var board = new five.Board();
 
-var tune = [0, 50, 0, 100, 0, 150, 0, 200, 0, 250];
-
 board.on("ready", function() {
-  var noise = new five.Led(10);
-  var n = 0;
-
+  var pitch = new five.Led(10);
   var relay = new five.Relay(9)
       relay.close();
 
-  var t = 500;
+  var noteIndex = 0;
 
-  this.loop(t, function() {
-    console.log(n, tune[n]);
+  var tune = [0, 50, 0, 100, 0, 150, 0, 200, 0, 250];
 
-    noise.brightness(tune[n]);
+  this.repl.inject({
+    p1: [0, 50, 0, 100, 0, 150, 0, 200, 0, 250],
+    p2: [0,250],
+    p3: [0,0,0,0,250],
+    play: function(tempo, pattern) {
+      board.loop(tempo, function() {
+        pitch.brightness(pattern[noteIndex]);
 
-    if (tune[n] === 0) {
-      relay.close();
-    } else {
-      relay.open();
-    }
+        if (tune[noteIndex] === 0) {
+          relay.close();
+        } else {
+          relay.open();
+        }
 
-    n += 1;
-
-    if (n >= tune.length) {
-      n = 0;
+        noteIndex += 1;
+        if (noteIndex >= tune.length) {
+          noteIndex = 0;
+        }
+      });
     }
   });
 });
