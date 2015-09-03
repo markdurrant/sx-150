@@ -5,7 +5,7 @@ var keypress = require("keypress");
 board.on("ready", function() {
   var pitch = new five.Led(10);
   var relay = new five.Relay(9)
-      relay.close();
+      // relay.close();
 
   var delay = 250;
   var bar = 16;
@@ -56,10 +56,10 @@ board.on("ready", function() {
   (function playNote () {
      setTimeout(function () {
         if(currentPatern[noteIndex] === 0) {
-          relay.close();
+          // relay.close();
           pitch.brightness(currentPatern[noteIndex] * 255 / 7);
         } else {
-          relay.open();
+          // relay.open();
           pitch.brightness(currentPatern[noteIndex] * 255 / 7);
         }
 
